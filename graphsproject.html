@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+<script>
+    
+	// const proxyurl = "https://cors-anywhere.herokuapp.com/";
+	const proxyurl = "https://secret-ocean-49799.herokuapp.com/";
+	
+   const api="https://vote-chain95.herokuapp.com/vote-count";
+   
+    fetch(proxyurl + api).then(response => response.text()) .then(contents => {
+    var keys1=[]
+       var obj=JSON.parse(contents);
+      console.log(obj);
+       for (var key of Object.keys(obj.status)) {
+       keys1.push({y:parseInt(obj.status[key]),label:key})
+    }
+     
+      console.log(keys1)
+      var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	title:{
+		text: "Election System"
+	},
+
+	data: [{        
+		type: "column",  
+		showInLegend: true, 
+		legendMarkerColor: "grey",
+		legendText: "Parties",
+		dataPoints: keys1
+	}]
+});
+chart.render();
+
+var chart = new CanvasJS.Chart("piechart", {
+	exportEnabled: true,
+	animationEnabled: true,
+	title:{
+		text: "Pie Chart"
+	},
+	legend:{
+		cursor: "pointer",
+		itemclick: explodePie
+	},
+	data: [{
+		type: "pie",
+		showInLegend: true,
+		toolTipContent: "{label}: <strong>{y}%</strong>",
+		indexLabel: "{label} - {y}%",
+		dataPoints:  keys1
+	}]
+});
+chart.render();
+
+
+function explodePie (e) {
+	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+	} else {
+		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+	}
+	e.chart.render();
+
+}
+
+
+     })
+
+
+// var keys2=[];
+// for(var key of keys1){
+
+//     keys2.push(key)
+// }
+// console.log(keys2)
+
+// let a= {"status":{"PTI":"5","PMLN":"2","PPP":"8"}}
+
+
+
+
+// var keys=[]
+// var value=[]
+// for (var key of Object.keys(a.status)) {
+//        keys.push({y:parseInt(a.status[key]),label:key})
+//     //    value.push(value)
+//     // console.log(key + " -> " + a.status[key])
+// }
+// console.log(keys)
+
+// window.onload = function () {
+
+// var chart = new CanvasJS.Chart("chartContainer", {
+// 	animationEnabled: true,
+// 	theme: "light2", // "light1", "light2", "dark1", "dark2"
+// 	title:{
+// 		text: "Election System"
+// 	},
+
+// 	data: [{        
+// 		type: "column",  
+// 		showInLegend: true, 
+// 		legendMarkerColor: "grey",
+// 		legendText: "Parties",
+// 		dataPoints: keys
+// 	}]
+// });
+// chart.render();
+
+
+// // 
+// var chart = new CanvasJS.Chart("piechart", {
+// 	exportEnabled: true,
+// 	animationEnabled: true,
+// 	title:{
+// 		text: "Pie Chart"
+// 	},
+// 	legend:{
+// 		cursor: "pointer",
+// 		itemclick: explodePie
+// 	},
+// 	data: [{
+// 		type: "pie",
+// 		showInLegend: true,
+// 		toolTipContent: "{label}: <strong>{y}%</strong>",
+// 		indexLabel: "{label} - {y}%",
+// 		dataPoints:  keys
+// 	}]
+// });
+// chart.render();
+
+
+
+
+
+// }
+
+
+
+
+
+
+
+// function explodePie (e) {
+// 	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+// 		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+// 	} else {
+// 		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+// 	}
+// 	e.chart.render();
+
+// }
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<div id="piechart" style="height: 300px; width: 100%;"></div>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
