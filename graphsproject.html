@@ -27,12 +27,12 @@
 		   }
 	   i++;
     }
-	console.log(keys2)
+	var sum=keys1[0].y + keys1[1].y + keys1[2].y;
 var chart = new CanvasJS.Chart("Bar-chart", {
 	exportEnabled: true,
 	animationEnabled: true,
 	title:{
-		text: "Total Vote Counts"
+		text: "Total Vote Counts"+"="+sum
 	},
 	legend:{
 		cursor: "pointer",
